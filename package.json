@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/saigonbros/gcfunc#readme",
   "dependencies": {
+    "@google-cloud/storage": "^5.19.0",
     "googleapis": "^100.0.0",
-    "neode": "^0.4.8"
+    "neode": "^0.4.8",
+    "uuid": "^8.3.2"
   }
 }
