@@ -40,7 +40,7 @@ gcloud secrets add-iam-policy-binding projects/*********/secrets/neo4j-password 
     --role="roles/secretmanager.secretAccessor";
 
 # add to project
-# https://cloud.google.com/functions/docs/configuring/secrets#gclouD
+# https://cloud.google.com/functions/docs/configuring/secrets#gcloud
 gcloud functions deploy FUNCTION_NAME \
   --runtime RUNTIME \
   --set-secrets 'ENV_VAR_NAME=SECRET:VERSION' \
