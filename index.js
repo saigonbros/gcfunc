@@ -63,7 +63,7 @@ exports.helloGCS = async (event, context) => {
   const storage = new Storage()
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: '/etc/secrets/googleapis',
+    keyFile: '/etc/secrets/primary/latest',
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
   const authClientObject = await auth.getClient()
@@ -72,11 +72,14 @@ exports.helloGCS = async (event, context) => {
     auth: authClientObject
   })
 
+  console.log('uri', process.env.NEO4J_URI)
+  console.log('username', process.env.NEO4J_USERNAME)
+  console.log('password', process.env.NEO4J_PASSWORD)
+
   const instance = new Neode(
     process.env.NEO4J_URI,
     process.env.NEO4J_USERNAME,
     process.env.NEO4J_PASSWORD
-
   )
 
   // 1. strip the extension and underscores from file name
@@ -102,16 +105,18 @@ exports.helloGCS = async (event, context) => {
   }
 
   business = business.records[0].get('b').properties
+  console.log('p1, business', business)
+
   const uuid = uuidv4()
 
   // yeah I should actually check for errors...
   if (isLogo) {
-    await instance.cypher('MATCH(b:Business) WHERE b.uid = $uid SET b.logo_image = $logo_image RETURN b;', {
+    await instance.writeCypher('MATCH(b:Business) WHERE b.uid = $uid SET b.logo_image = $logo_image RETURN b;', {
       uid: business.uid,
       logo_image: uuid
     })
   } else {
-    await instance.cypher('MATCH(b:Business) WHERE b.uid = $uid SET b.image = $image RETURN b;', {
+    await instance.writeCypher('MATCH(b:Business) WHERE b.uid = $uid SET b.image = $image RETURN b;', {
       uid: business.uid,
       image: uuid
     })

@@ -47,6 +47,12 @@ gcloud functions deploy FUNCTION_NAME \
   --project saigonbros
 ```
 
+Project Specific Secrets
+------------------------
+```
+$ echo -n "***" | gcloud secrets create neo4j-uri --replication-policy="automatic" --data-file=- --project saigonbros;
+```
+
 Logs
 ----
 ```
